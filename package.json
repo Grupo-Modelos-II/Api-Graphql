@@ -5,11 +5,10 @@
   "main": "public/index.js",
   "scripts": {
     "prebuild": "rm -rf public",
-    "build": "rm -rf public && tsc",
+    "build": "tsc",
+    "postbuild": "cd src/ && cp -r GraphQL/schema.graphql ../public/GraphQL",
     "start": "node public/index.js",
-    "dev": "ts-node-dev src/index.ts",
-    "copy": "cd src/ && cp -r GraphQL/schema.graphql ../public/GraphQL",
-    "postbuild": "yarn copy"
+    "dev": "ts-node-dev src/index.ts"
   },
   "keywords": [
     "api",
