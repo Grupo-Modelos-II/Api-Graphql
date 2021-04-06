@@ -4,6 +4,7 @@
   "description": "Api Graphql to make a Clients CRUD",
   "main": "public/index.js",
   "scripts": {
+    "prebuild": "rm -rf public",
     "build": "rm -rf public && tsc",
     "start": "node public/index.js",
     "dev": "ts-node-dev src/index.ts",
