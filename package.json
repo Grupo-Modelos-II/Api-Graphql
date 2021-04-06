@@ -1,0 +1,34 @@
+{
+  "name": "apiclients",
+  "version": "1.0.0",
+  "description": "Api Graphql to make a Clients CRUD",
+  "main": "public/index.js",
+  "scripts": {
+    "build": "rm -rf public && tsc",
+    "start": "node public/index.js",
+    "dev": "ts-node-dev src/index.ts",
+    "copy": "cd src/ && cp -r GraphQL/schema.graphql ../public/GraphQL",
+    "postbuild": "yarn copy"
+  },
+  "keywords": [
+    "api",
+    "graphql",
+    "typescript"
+  ],
+  "author": "Jesús Leiva, Jesús Lozada, Sergio Paez",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.5.0",
+    "graphql-tools": "^7.0.4",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.11",
+    "@types/morgan": "^1.9.2",
+    "@types/node": "^14.14.37",
+    "ts-node-dev": "^1.1.6",
+    "typescript": "^4.2.3"
+  }
+}

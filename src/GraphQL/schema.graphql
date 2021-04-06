@@ -1,0 +1,19 @@
+type Client {
+    id: ID!
+}
+input ClientInput {
+    id: ID!
+}
+input ClientInputRequired {
+    id: ID!
+}
+
+type Query {
+    Client(id: ID!): Client
+    Clients: [Client]
+}
+type Mutation {
+    CreateClient(input: ClientInputRequired!): Client
+    UpdateClient(input: ClientInput!): Client
+    DeleteClient(id: ID!): Client
+}
