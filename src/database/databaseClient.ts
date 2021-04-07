@@ -1,4 +1,5 @@
 import ConnectionDatabase from './clients/Connection';
+import MongoConnection from './clients/MongoConnection';
 import MysqlConnection from './clients/MysqlConnection';
 import PostgresqlConnection from './clients/PostgresqlConnection';
 import config from './config/databaseConfig';
@@ -17,6 +18,11 @@ export default class DatabaseClient {
                 this.database = new PostgresqlConnection();
                 break;
 
+            case 'mongo':
+            case 'mongodb':
+                this.database = new MongoConnection();
+                break;
+
             case 'mariadb':
             case 'mysql':
             default:
@@ -28,19 +34,19 @@ export default class DatabaseClient {
         return await this.database.getAll(table);
     }
 
-    public async get(id: number | string, table: string): Promise<any[]> {
+    public async get(id: number | string, table: string): Promise<any> {
         return await this.database.get(id, table);
     }
 
-    public async create(data: any, table: string): Promise<any[]> {
+    public async create(data: any, table: string): Promise<any> {
         return await this.database.create(data, table);
     }
 
-    public async delete(id: number | string, table: string): Promise<any[]> {
+    public async delete(id: number | string, table: string): Promise<any> {
         return await this.database.delete(id, table);
     }
 
-    public async update(data: any, table: string): Promise<any[]> {
+    public async update(data: any, table: string): Promise<any> {
         return await this.database.update(data, table);
     }
 
