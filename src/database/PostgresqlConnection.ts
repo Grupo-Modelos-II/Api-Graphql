@@ -17,7 +17,6 @@ export default class PostgresqlConnection implements Connection {
     }
 
     disconnect(): void {}
-    //Funciones internas de base de datos con las operaciones basicas a realizar
 
     async getAll(table: string): Promise<any[]> {
         const query: string = `SELECT * FROM ${table};`;
