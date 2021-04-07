@@ -1,4 +1,2 @@
 
-export default class ClientDao {
-
-}
+export default class ClientDao {}
