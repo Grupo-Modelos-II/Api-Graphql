@@ -7,8 +7,8 @@
     "prebuild": "rm -rf public",
     "build": "tsc",
     "postbuild": "cd src/ && cp -r GraphQL/schema.graphql ../public/GraphQL",
-    "start": "node public/index.js",
-    "dev": "ts-node-dev src/index.ts"
+    "start": "node -r dotenv/config public/index.js",
+    "dev": "ts-node-dev -r dotenv/config src/index.ts"
   },
   "keywords": [
     "api",
