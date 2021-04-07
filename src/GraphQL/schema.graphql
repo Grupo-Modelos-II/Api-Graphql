@@ -1,11 +1,20 @@
 type Client {
     id: ID!
+    nombre: String!
+    apellido: String!
+    edad: Int!
 }
 input ClientInput {
     id: ID!
+    nombre: String
+    apellido: String
+    edad: Int
 }
 input ClientInputRequired {
     id: ID!
+    nombre: String!
+    apellido: String!
+    edad: Int!
 }
 
 type Query {
