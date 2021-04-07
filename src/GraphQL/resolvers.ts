@@ -1,7 +1,4 @@
-class Client {
-    private id: number | string = 0;
-    constructor(id: number | string) {this.id = id;}
-};
+import Client from '../models/Client';
 
 export const resolvers: { [x: string]: { [x: string]: (_: any, __: any) => Client | Client[]; }; } = {
     Query: {
