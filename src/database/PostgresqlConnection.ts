@@ -5,8 +5,6 @@ import { getIdDB, getUpdateText, getValueText } from '../functions/proccesData';
 
 export default class PostgresqlConnection extends ConnectionDatabase {
 
-    private poolDatabase: any;
-
     constructor() {
         super();
     }

@@ -6,8 +6,6 @@ import  { getUpdateText,getValueText } from '../functions/proccesData';
 
 export default class MysqlConnection extends ConnectionDatabase{
 
-    private poolDatabase:any;
-
     constructor(){
         super();
     }

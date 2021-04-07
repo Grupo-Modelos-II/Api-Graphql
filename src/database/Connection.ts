@@ -1,5 +1,7 @@
 export default abstract class ConnectionDatabase {
 
+    protected poolDatabase:any;
+
     constructor(){
         this.connect();
     }
