@@ -2,6 +2,7 @@ import { createConnection } from 'mysql';
 import { keys } from '../config/keys';
 import { promisify } from 'util';
 import Connection from './Connection';
+import  { getUpdateText,getValueText } from '../functions/proccesData';
 
 export default class MysqlConnection implements Connection{
 
@@ -32,16 +33,16 @@ export default class MysqlConnection implements Connection{
         return await this.query(`SELECT * FROM ${table} WHERE id = ?;`,[id]);
     }
 
-    create(data: any, table: string): Promise<any> {
-        throw new Error('Method not implemented.');
+    async create(data: any[], table: string): Promise<any> {
+        return await this.query(`INSERT INTO ${table} ${getValueText(data)}`,data);
     }
 
-    delete(id: number, table: string): Promise<any> {
-        throw new Error('Method not implemented.');
+    async delete(id: number, table: string): Promise<any> {
+        return await this.query(`DELETE FROM ${table} WHERE id = ?;`,[id]);
     }
-    
-    update(data: any, table: string, id: number): Promise<any> {
-        throw new Error('Method not implemented.');
+
+    async update(data: any, table: string, id: number): Promise<any> {
+        return await this.query(`UPDATE ${table} SET ${getUpdateText(table,data)} WHERE id = ?;`,[id]);
     }
 
 }
