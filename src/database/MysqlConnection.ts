@@ -1,4 +1,4 @@
-import { createConnection } from 'mysql';
+import { createPool } from 'mysql';
 import { keys } from '../config/keys';
 import { promisify } from 'util';
 import Connection from './Connection';
@@ -13,19 +13,17 @@ export default class MysqlConnection implements Connection{
     }
 
     connect(): void {
-        this.poolDatabase = createConnection(keys);
+        this.poolDatabase = createPool(keys);
         this.poolDatabase.query = promisify(this.poolDatabase.query);
     }
 
-    disconnect(): void {
-        this.poolDatabase.disconnect();
-    }
+    disconnect(): void {}
 
     async query(queryString: string,data:any[] = []): Promise<any> {
         return await this.poolDatabase.query(queryString,data);
     }
 
-    async getAll(table: string): Promise<any> {
+    async getAll(table: string): Promise<any[]> {
         return await this.query(`SELECT * FROM ${table};`);
     }
 

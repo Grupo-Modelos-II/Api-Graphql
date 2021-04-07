@@ -1,11 +1,11 @@
 import { keys } from '../config/keys';
 import { Pool } from 'pg';
 import Connection from "./Connection";
-import {  } from '../'
+import { getIdDB, getUpdateText, getValueText } from '../functions/proccesData';
 
 export default class PostgresqlConnection implements Connection {
 
-    private poolDatabase: Pool;
+    private poolDatabase: any;
 
     constructor() {
         this.connect();
@@ -19,32 +19,32 @@ export default class PostgresqlConnection implements Connection {
     disconnect(): void {}
     //Funciones internas de base de datos con las operaciones basicas a realizar
 
-    async getAll(table: string): Promise<{ [x: string]: any; }[]> {
+    async getAll(table: string): Promise<any[]> {
         const query: string = `SELECT * FROM ${table};`;
         return (await this.poolDatabase.query(query)).rows;
     };
 
-    async getById(table: string, id: number | string): Promise<{ [x: string]: any; }> {
+    async get(id: number, table: string): Promise<any> {
         const query: string = `SELECT * FROM ${table} WHERE ${getIdDB(table)} = $1;`;
         return (await this.poolDatabase.query(query, [id])).rows[0];
     };
 
-    async createReg(table: string, object: General): Promise<{ [x: string]: any; }> {
-        const query: string = `INSERT INTO ${table}${getValueText(object)} RETURNING *;`;
-        return (await this.poolDatabase.query(query, object.getArray())).rows[0];
+    async create(table: string, data: any): Promise<any> {
+        const query: string = `INSERT INTO ${table}${getValueText(data)} RETURNING *;`;
+        return (await this.poolDatabase.query(query, data.getArray())).rows[0];
     };
 
-    async deleteReg(table: string, id: number | string): Promise<{ [x: string]: any; }> {
+    async delete(id: number, table: string): Promise<any> {
         const query: string = `DELETE FROM ${table} WHERE ${getIdDB(table)} = $1 RETURNING *;`;
         return (await this.poolDatabase.query(query, [id])).rows[0];
     };
 
-    async updateReg(table: string, object: General): Promise<{ [x: string]: any; }> {
-        const query: string = `UPDATE ${table} SET ${getUpdateText(table, object)} RETURNING *;`;
-        return (await this.poolDatabase.query(query, object.getArray())).rows[0];
+    async update(table: string, data: any): Promise<any> {
+        const query: string = `UPDATE ${table} SET ${getUpdateText(table, data)} RETURNING *;`;
+        return (await this.poolDatabase.query(query, data.getArray())).rows[0];
     };
 
-    async query(query: string, array: any[] = []): Promise<{ [x: string]: any; }[]> {
-        return (array.length > 0) ? (await this.poolDatabase.query(query, array)).rows : (await this.poolDatabase.query(query)).rows;
+    async query(query: string, array: any[] = []): Promise<any> {
+        return (await this.poolDatabase.query(query, array)).rows;
     };
 }
