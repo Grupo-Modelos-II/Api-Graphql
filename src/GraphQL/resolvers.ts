@@ -1,19 +1,16 @@
 import Client from '../models/Client';
-import Mysql from '../database/MysqlConnection';
-import Postgres from '../database/PostgresqlConnection';
+import Database from '../database/databaseClient';
+
+const database = new Database();
 
 
 export const resolvers: { [x: string]: { [x: string]: (_: any, __: any) => any }; } = {
     Query: {
-        Client: (_: any, {id}: {id: number | string}): Client => {
-            return new Client(id);
+        Client: async (_: any, {id}: {id: number | string}): Promise<any> => {
+            return await database.get(id, "Cliente");
         },
-        Clients: async (): Promise<Client[]> => {
-            const mysql = new Mysql();
-            const postgres = new Postgres();
-            console.log(await postgres.get(1, "Cliente"));
-            console.log(await mysql.get(2, "Cliente"));
-            return [new Client(0)];
+        Clients: async (): Promise<any[]> => {
+            return await database.getAll("Cliente");
         }
     },
 
