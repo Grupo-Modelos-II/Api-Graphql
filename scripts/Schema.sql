@@ -1,8 +1,9 @@
 CREATE TABLE Cliente(
-    id int primary key not null,
-    nombre varchar not null,
-    apellido varchar,
+    id integer primary key,
+    nombre varchar(25) not null,
+    apellido varchar(25) not null,
     edad integer not null
 );
 
-INSERT INTO Cliente VALUES(1,'Sergio','Paez',19);
+INSERT INTO Cliente VALUES(1,'Jesús','Leiva',19);
+INSERT INTO Cliente VALUES(2,'Sergio','Paez',19);
