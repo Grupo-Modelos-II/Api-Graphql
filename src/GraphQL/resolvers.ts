@@ -15,14 +15,15 @@ export const resolvers: { [x: string]: { [x: string]: (_: any, __: any) => any }
     },
 
     Mutation: {
-        CreateClient: (_: any, {input}: {input: { id: number | string }}): Client => {
-            return new Client(input.id);
+        CreateClient: async (_: any, {input}: {input: { [x: string]: string | number }}): Promise<any> => {
+            
+            return await database.create(input, "Cliente");
         },
-        UpdateClient: (_: any, {input}: {input: { id: number | string }}): Client => {
-            return new Client(input.id);
+        UpdateClient: async (_: any, {input}: {input: { [x: string]: string | number }}): Promise<any> => {
+            return await database.update(input, "Cliente");
         },
-        DeleteClient: (_: any, {input}: {input: { id: number | string }}): Client => {
-            return new Client(input.id);
+        DeleteClient: async (_: any, {id}: {id: number | string }): Promise<any> => {
+            return await database.delete(id, "Cliente");
         }
     }
 };
