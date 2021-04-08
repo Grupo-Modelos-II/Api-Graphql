@@ -8,10 +8,6 @@ export default class MysqlConnection extends ConnectionDatabase {
 
     protected poolDatabase!: Pool;
 
-    constructor() {
-        super();
-    }
-
     protected connect(): void {
         this.poolDatabase = createPool(keys);
         this.poolDatabase.query = promisify(this.poolDatabase.query) as unknown as QueryFunction;

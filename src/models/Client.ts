@@ -7,6 +7,9 @@ export default class Client{
 
     constructor(id: number | string, nombre: string, apellido: string, edad: number) {
         this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.edad = edad;
     }
 
     public getId():number | string {

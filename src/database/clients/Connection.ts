@@ -2,10 +2,6 @@ export default abstract class ConnectionDatabase {
 
     protected poolDatabase: any;
 
-    constructor(){
-        this.connect();
-    }
-
     protected abstract connect(): void;
     protected abstract query(query: string): Promise<any>;
     public abstract getAll(table: string): Promise<any[]>;
