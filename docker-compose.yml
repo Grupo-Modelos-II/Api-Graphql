@@ -1,0 +1,4 @@
+services:
+    build:
+        context: .
+        

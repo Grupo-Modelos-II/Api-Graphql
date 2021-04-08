@@ -8,7 +8,7 @@ export default class PostgresqlConnection extends ConnectionDatabase {
     protected poolDatabase!: Pool;
 
 
-    protected connect(): void {
+    public connect(): void {
         this.poolDatabase = new Pool(keys);
         this.poolDatabase.connect();
     }

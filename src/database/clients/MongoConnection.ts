@@ -7,7 +7,7 @@ export default class MongoConnection extends ConnectionDatabase {
 
     protected poolDatabase!: MongoClient;
 
-    protected async connect(): Promise<void> {
+    public async connect(): Promise<void> {
         this.poolDatabase = new MongoClient(`mongodb://${keys.user}:${keys.password}@${keys.host}:${keys.port}`, { useUnifiedTopology: true });
         await this.poolDatabase.connect();
     }

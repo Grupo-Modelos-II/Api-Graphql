@@ -8,7 +8,7 @@ export default class MysqlConnection extends ConnectionDatabase {
 
     protected poolDatabase!: Pool;
 
-    protected connect(): void {
+    public connect(): void {
         this.poolDatabase = createPool(keys);
         this.poolDatabase.query = promisify(this.poolDatabase.query) as unknown as QueryFunction;
     }

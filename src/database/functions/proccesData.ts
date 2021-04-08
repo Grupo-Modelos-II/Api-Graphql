@@ -11,7 +11,11 @@ export const getValueText = (table: string, data: { [x: string]: any; }): string
     let query: string = '(';
     let primaryKey: string = '';
     for(let key in data) {
-        query += `${key}, `;
+        if(key != getIdDB(table)) {
+            query += `${key}, `;
+        } else {
+            primaryKey = key;
+        }
     }
     query += `${primaryKey}, `;
     query = query.substring(0, query.length - 2) + ') VALUES(';
