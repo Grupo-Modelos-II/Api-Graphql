@@ -1,4 +1,15 @@
 services:
-    build:
-        context: .
+    app:
+        build: .
+        ports:
+            - 3000:3000
+        depends_on:
+            - mongo
+            - mysql
+            - postgres
+        restart: always
+        env_file:
+            - .env
+    mongo:
+        image: mongo
         
