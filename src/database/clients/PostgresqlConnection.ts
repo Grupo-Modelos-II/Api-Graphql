@@ -24,20 +24,20 @@ export default class PostgresqlConnection extends ConnectionDatabase {
         return await this.query(`SELECT * FROM ${table};`);
     }
 
-    public async get(id: number | string, table: string): Promise<any> {
+    public async get(table: string, id: number | string): Promise<any> {
         return (await this.query(`SELECT * FROM ${table} WHERE ${getIdDB(table)} = $1;`, [id]))[0];
     }
 
     public async create(table: string, data: any): Promise<any> {
-        return (await this.query(`INSERT INTO ${table}${getValueText(table, data)} RETURNING *;`, data.getArray()))[0];
+        return (await this.query(`INSERT INTO ${table}${getValueText(table, data)} RETURNING *;`, toArray(table, data)))[0];
     }
 
-    public async delete(id: number | string, table: string): Promise<any> {
+    public async delete(table: string, id: number | string): Promise<any> {
         return (await this.query(`DELETE FROM ${table} WHERE ${getIdDB(table)} = $1 RETURNING *;`, [id]))[0];
     }
 
-    public async update(data: any, table: string): Promise<any> {
-        return (await this.query(`UPDATE ${table} SET ${getUpdateText(table,data)} WHERE id = ? RETURNING *;`, toArray(table, data)))[0];
+    public async update(table: string, data: any): Promise<any> {
+        return (await this.query(`UPDATE ${table} SET ${getUpdateText(table,data)} RETURNING *;`, toArray(table, data)))[0];
     }
 
 }

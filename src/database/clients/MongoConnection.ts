@@ -24,7 +24,7 @@ export default class MongoConnection extends ConnectionDatabase {
         return await this.query(table).find().toArray();
     }
 
-    public async get(id: number | string, table: string): Promise<any> {
+    public async get(table: string, id: number | string): Promise<any> {
         return await this.query(table).find({ id: id }).toArray()[0];
     }
 
@@ -32,12 +32,13 @@ export default class MongoConnection extends ConnectionDatabase {
         return (await this.query(table).insertOne(data)).ops[0];
     }
 
-    public async delete(id: number | string, table: string): Promise<any> {
+    public async delete(table: string, id: number | string): Promise<any> {
         return (await this.query(table).findOneAndDelete({ id: id })).value;
     }
 
-    public async update(data: any, table: string): Promise<any> {
-        return (await this.query(table).findOneAndUpdate({ id: data.id }, { $set: data })).value;
+    public async update(table: string, data: any): Promise<any> {
+        await this.query(table).update({ id: data.id }, { $set: data });
+        return await this.get(data.id, table);
     }
 
 }
