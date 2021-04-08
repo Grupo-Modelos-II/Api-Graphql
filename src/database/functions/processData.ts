@@ -1,4 +1,4 @@
-import config from '../config/databaseConfig';
+import { getDatabaseType } from '../config/databaseConfig';
 
 export const getIdDB = (table: string): string => {
     switch (table) {
@@ -17,21 +17,24 @@ export const getValueText = (table: string, data: { [x: string]: any; }): string
             primaryKey = key;
         }
     }
-    query += `${primaryKey}, `;
-    query = query.substring(0, query.length - 2) + ') VALUES(';
+    query += `${primaryKey}`;
+    query += ') VALUES(';
     let array: any[] = toArray(table, data);
     for(let i: number = 1; i <= array.length; i++) {
-        switch(config) {
+        switch(getDatabaseType()) {
             case 'postgres':
             case 'postgresql':
-                query += `$${i}, `;
+                query += `$${i}`;
                 break;
 
             case 'mariadb':
             case 'mysql':
+                query += '?';
+                break;
+
             default:
-                query += `?, `;
         }
+        query += ', ';
     }
     query = query.substring(0, query.length - 2) + ')';
     return query;
@@ -42,31 +45,38 @@ export const getUpdateText = (table: string, data: { [x: string]: any; }): strin
     let i: number = 1;
     for(let key in data) {
         if(key != getIdDB(table)) {
-            switch(config) {
+            query += `${key} = `;
+            switch(getDatabaseType()) {
                 case 'postgres':
                 case 'postgresql':
-                    query += `${key} = $${i}, `;
+                    query += `$${i}`;
                     break;
     
                 case 'mariadb':
                 case 'mysql':
+                    query += '?';
+                    break;
+
                 default:
-                    query += `${key} = ?, `;
             }
+            query += ', ';
             i++;
         }
     }
     query = query.substring(0, query.length - 2);
-    switch(config) {
+    query += ` WHERE ${getIdDB(table)} = `;
+    switch(getDatabaseType()) {
         case 'postgres':
         case 'postgresql':
-            query += ` WHERE ${getIdDB(table)} = $${i}`;
+            query += `$${i}`;
             break;
 
-            case 'mariadb':
-            case 'mysql':
-            default:
-            query += ` WHERE ${getIdDB(table)} = ?`;
+        case 'mariadb':
+        case 'mysql':
+            query += '?';
+            break;
+
+        default:
     }
     return query;
 }

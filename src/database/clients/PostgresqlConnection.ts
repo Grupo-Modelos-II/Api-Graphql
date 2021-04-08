@@ -1,7 +1,7 @@
 import { Pool } from 'pg';
 import { keys } from '../config/keys';
 import ConnectionDatabase from "./Connection";
-import { getIdDB, getUpdateText, getValueText, toArray } from '../functions/proccesData';
+import { getIdDB, getUpdateText, getValueText, toArray } from '../functions/processData';
 
 export default class PostgresqlConnection extends ConnectionDatabase {
 

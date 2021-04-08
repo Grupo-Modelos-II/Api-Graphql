@@ -2,7 +2,7 @@ import { createPool, Pool, QueryFunction, Query } from 'mysql';
 import { keys } from '../config/keys';
 import { promisify } from 'util';
 import ConnectionDatabase from './Connection';
-import  { getIdDB, getUpdateText,getValueText, toArray } from '../functions/proccesData';
+import  { getIdDB, getUpdateText,getValueText, toArray } from '../functions/processData';
 
 export default class MysqlConnection extends ConnectionDatabase {
 
