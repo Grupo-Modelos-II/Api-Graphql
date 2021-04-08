@@ -8,7 +8,7 @@ export default class MysqlConnection extends ConnectionDatabase {
 
     protected poolDatabase!: Pool;
 
-    constructor(){
+    constructor() {
         super();
     }
 
@@ -25,20 +25,21 @@ export default class MysqlConnection extends ConnectionDatabase {
         return await this.query(`SELECT * FROM ${table};`);
     }
 
-    public async get(id: number | string, table: string): Promise<any> {
+    public async get(table: string, id: number | string): Promise<any> {
         return (await this.query(`SELECT * FROM ${table} WHERE ${getIdDB(table)} = ?;`, [id]))[0];
     }
 
-    public async create(data: any[], table: string): Promise<any> {
-        return (await this.query(`INSERT INTO ${table} ${getValueText(table, data)} RETURNING *;`, data))[0];
+    public async create(table: string, data: any): Promise<any> {
+        return (await this.query(`INSERT INTO ${table} ${getValueText(table, data)} RETURNING *;`, toArray(table, data)))[0];
     }
 
-    public async delete(id: number | string, table: string): Promise<any> {
-        return (await this.query(`DELETE FROM ${table} WHERE ${getIdDB(table)} = ?;`, [id]))[0];
+    public async delete(table: string, id: number | string): Promise<any> {
+        return (await this.query(`DELETE FROM ${table} WHERE ${getIdDB(table)} = ? RETURNING *;`, [id]))[0];
     }
 
-    public async update(data: any, table: string): Promise<any> {
-        return (await this.query(`UPDATE ${table} SET ${getUpdateText(table,data)} WHERE id = ? RETURNING *;`, toArray(table, data)))[0];
+    public async update(table: string, data: any): Promise<any> {
+        await this.query(`UPDATE ${table} SET ${getUpdateText(table,data)};`, toArray(table, data));
+        return await this.get(table, data.id);
     }
 
 }
