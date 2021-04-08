@@ -1,29 +1,29 @@
+import MongoConnection from '../database/clients/MongoConnection';
 import Client from '../models/Client';
-import Database from '../database/databaseClient';
 
-const database = new Database();
+const database = new MongoConnection();
 
 
 export const resolvers: { [x: string]: { [x: string]: (_: any, __: any) => any }; } = {
     Query: {
         Client: async (_: any, {id}: {id: number | string}): Promise<any> => {
-            return await database.get(id, "Cliente");
+            return await database.get(id, 'Cliente');
         },
         Clients: async (): Promise<any[]> => {
-            return await database.getAll("Cliente");
+            return await database.getAll('Cliente');
         }
     },
 
     Mutation: {
         CreateClient: async (_: any, {input}: {input: { [x: string]: string | number }}): Promise<any> => {
             
-            return await database.create(input, "Cliente");
+            return await database.create('Cliente', input);
         },
         UpdateClient: async (_: any, {input}: {input: { [x: string]: string | number }}): Promise<any> => {
-            return await database.update(input, "Cliente");
+            return await null;
         },
         DeleteClient: async (_: any, {id}: {id: number | string }): Promise<any> => {
-            return await database.delete(id, "Cliente");
+            return await null;
         }
     }
 };
