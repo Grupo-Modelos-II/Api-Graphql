@@ -17,16 +17,20 @@ input ClientInputRequired {
     edad: Int!
 }
 
+enum DatabaseType {
+    postgresql, mongodb, mysql
+}
+
 type Query {
     Client(id: ID!): Client
     Clients: [Client]
 
-    DatabaseClient: String!
+    DatabaseClient: DatabaseType!
 }
 type Mutation {
     CreateClient(input: ClientInputRequired!): Client
     UpdateClient(input: ClientInput!): Client
     DeleteClient(id: ID!): Client
 
-    DatabaseClient(name: String!): Boolean!
+    DatabaseClient(name: DatabaseType!): DatabaseType!
 }
