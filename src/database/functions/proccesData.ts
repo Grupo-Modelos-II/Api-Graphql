@@ -9,17 +9,21 @@ export const getIdDB = (table: string): string => {
 
 export const getValueText = (table: string, data: { [x: string]: any; }): string => {
     let query: string = '(';
+    let primaryKey: string = '';
     for(let key in data) {
         query += `${key}, `;
     }
+    query += `${primaryKey}, `;
     query = query.substring(0, query.length - 2) + ') VALUES(';
     let array: any[] = toArray(table, data);
     for(let i: number = 1; i <= array.length; i++) {
         switch(config) {
             case 'postgres':
+            case 'postgresql':
                 query += `$${i}, `;
                 break;
 
+            case 'mariadb':
             case 'mysql':
             default:
                 query += `?, `;
@@ -45,20 +49,20 @@ export const getUpdateText = (table: string, data: { [x: string]: any; }): strin
                 default:
                     query += `${key} = ?, `;
             }
+            i++;
         }
-        i++;
     }
     query = query.substring(0, query.length - 2);
     switch(config) {
         case 'postgres':
         case 'postgresql':
-            query += `WHERE ${getIdDB(table)} = $1`;
+            query += ` WHERE ${getIdDB(table)} = $${i}`;
             break;
 
             case 'mariadb':
             case 'mysql':
             default:
-            query += `WHERE ${getIdDB(table)} = ?`;
+            query += ` WHERE ${getIdDB(table)} = ?`;
     }
     return query;
 }
