@@ -36,9 +36,11 @@ export const getUpdateText = (table: string, data: { [x: string]: any; }): strin
         if(key != getIdDB(table)) {
             switch(config) {
                 case 'postgres':
+                case 'postgresql':
                     query += `${key} = $${i}, `;
                     break;
     
+                case 'mariadb':
                 case 'mysql':
                 default:
                     query += `${key} = ?, `;
@@ -49,11 +51,13 @@ export const getUpdateText = (table: string, data: { [x: string]: any; }): strin
     query = query.substring(0, query.length - 2);
     switch(config) {
         case 'postgres':
+        case 'postgresql':
             query += `WHERE ${getIdDB(table)} = $1`;
             break;
 
-        case 'mysql':
-        default:
+            case 'mariadb':
+            case 'mysql':
+            default:
             query += `WHERE ${getIdDB(table)} = ?`;
     }
     return query;
